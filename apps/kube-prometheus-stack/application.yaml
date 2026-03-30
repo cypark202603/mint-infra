@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: mint
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: '*'
+    helm:
+      values: |
+        grafana:
+          service:
+            type: NodePort
+            nodePort: 30300
+          adminPassword: "6446"
+        prometheus:
+          service:
+            type: NodePort
+            nodePort: 30090
+        alertmanager:
+          service:
+            type: NodePort
+            nodePort: 30093
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
