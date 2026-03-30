@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-api
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: mint
+  source:
+    repoURL: https://github.com/cypark202603/mint-infra.git
+    targetRevision: main
+    path: apps/ai-api
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ai-api
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
