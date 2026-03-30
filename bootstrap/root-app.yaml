@@ -24,7 +24,7 @@ spec:
   source:
     repoURL: https://github.com/cypark202603/mint-infra.git
     targetRevision: main
-    path: apps
+    path: applications
     directory:
       recurse: true
   destination:

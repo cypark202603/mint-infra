@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ai-api
+  name: ollama
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,10 +10,10 @@ spec:
   source:
     repoURL: https://github.com/cypark202603/mint-infra.git
     targetRevision: main
-    path: apps/ai-api
+    path: manifests/ollama
   destination:
     server: https://kubernetes.default.svc
-    namespace: ai-api
+    namespace: ollama
   syncPolicy:
     automated:
       prune: true
